@@ -15,21 +15,12 @@ void tela_user_listar(){
 			printf("|--------------- LISTAR USUARIO SPOTIFY ---------------------|\n");
 			printf("|------------------------------------------------------------|\n");
 			
-			printf("\n\t a- voltar ");
+			//edite aqui
 			
-			printf("\n\n\t escolha sua opcao: ");		
-			opcao = getche();
-            
-            switch(opcao){
-                          
-                  case 'a':
-                       
-                       break;
-            
-            }			
-			
-			
-            getch();
+			printf("\n\n\t Digite qualquer tecla para voltar: ");		
+			getche();
+        	tela_index_user();
+
      
 }
 
@@ -40,6 +31,10 @@ void tela_user_consultar(){
 			printf("|------------- CONSULTAR USUARIO SPOTIFY --------------------|\n");
 			printf("|------------------------------------------------------------|\n");
             getch();
+
+			printf("\n\n\t Digite qualquer tecla para voltar: ");		
+			getche();
+        	tela_index_user();
 
 }
 

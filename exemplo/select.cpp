@@ -15,6 +15,7 @@ typedef struct{
 
 /* lê os dados de um registro introduzido pelo usuário*/
 void Ler_Pessoa(Pessoa *p){
+	
     printf("Nome:    "); gets(p->nome);
     printf("Idade:   "); scanf("%d",&p->idade);
     printf("salario: "); scanf("%f",&p->salario);

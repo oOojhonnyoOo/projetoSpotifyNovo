@@ -37,8 +37,18 @@ int main(int argc, char *argv[]) {
     
 	Pessoa x;
     long int n_reg;
+
+	int retorno;
+
     printf("Qual o numero do registro: ");
     scanf("%ld", & n_reg); fflush(stdin);
+
+    int i = sizeof(Pessoa);
+    int z = (n_reg-1);
+    int w = (n_reg-1)*sizeof(Pessoa);
+    // tenho que pegar o n_reg ele eh o id do usuario
+    
+    printf("tamanho pessoa: %i\n %i \n %i ",i,z,w);
     
 	if(fseek(fp, (n_reg-1)*sizeof(Pessoa), SEEK_SET)!=0){
         printf("Registro inexistente ou problemas no posicionamento!!!");
@@ -50,7 +60,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
    
-    if(x.Status=='*'){
+    if(x.Status == '*'){
         printf("Um registro apagado não pode ser alterado!!! \n\n");
         return 1;
     }

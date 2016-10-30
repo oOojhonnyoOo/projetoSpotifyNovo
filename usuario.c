@@ -24,8 +24,6 @@ void cadastrar_Pessoa(Pessoa *p){
     fflush(stdin);
 }
 
-
-
 int main(){
 	
 	int op,i,j,num = 0;
@@ -95,13 +93,15 @@ int main(){
 			Pessoa x;
 			
 			cadastrar_Pessoa(&x);
-			
+
 			fseek(usuario, 0L, SEEK_END);
 		    if(fwrite(&x, sizeof(x), 1, usuario)!=1){
 		    	printf("Adicionar pessoa: Falhou a escrita do registro");
 		    	return 1;
 			}
-		        
+		    
+		    
+		    
 			tela_index_user();
 			
 			break;

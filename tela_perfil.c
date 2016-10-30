@@ -13,6 +13,12 @@ void tela_perfil_nome(){
 			printf("|------------- ALTERAR NOME PERFIL SPOTIFY ------------------|\n");
 			printf("|------------------------------------------------------------|\n");
             getch();
+		
+		
+			printf("\n\n\t Digite qualquer tecla para voltar: ");		
+			getche();
+        	tela_index_user();
+        	
 
 }
 
@@ -23,5 +29,11 @@ void tela_perfil_login(){
 			printf("|--------------- ALTERAR LOGIN SPOTIFY ----------------------|\n");
 			printf("|------------------------------------------------------------|\n");
             getch();
+		
+		
+			printf("\n\n\t Digite qualquer tecla para voltar: ");		
+			getche();
+        	tela_index_user();
+        	
 
 }

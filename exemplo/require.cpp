@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
     rewind(fp);
     
     while(1){
-    
+    	
 	    if(fread(&reg, sizeof(reg), 1, fp)!= 1)break; /*Sair do laço*/
         if(reg.Status=='*') continue; /*Passa ao próximo*/
         
@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
             printf("Pressione <Enter> para continuar .  .  .");
             
     }
-    printf("\n\n Pressione <Enter> para continuar .  .  ."); /*No fim da listagem*/
+    printf("\n\n Pressione <Enter> para continuar .  .  . %i ",n_Linhas); /*No fim da listagem*/
 
     
 	return 0;
