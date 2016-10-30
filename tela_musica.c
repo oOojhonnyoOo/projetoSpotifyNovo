@@ -17,6 +17,12 @@ void cadastrar_musica(musica *m){
     fflush(stdin);
 }
 
+FILE *arq_musica;
+
+void arquivo_repositorio(){
+	arq_musica = fopen("banco\\musica.txt","r+b");	
+}
+
 void tela_musica_cadastrar(){
    
      
@@ -24,10 +30,8 @@ void tela_musica_cadastrar(){
 			printf("|------------------------------------------------------------|\n");
 			printf("|-------------- CADASTRAR MUSICA SPOTIFY --------------------|\n");
 			printf("|------------------------------------------------------------|\n");
-
-
-			FILE *arq_musica;
-			arq_musica = fopen("banco\\musica.txt","r+b");
+	
+			arquivo_repositorio();
 
 			musica m;
 			
@@ -36,50 +40,87 @@ void tela_musica_cadastrar(){
 			fseek(arq_musica, 0L, SEEK_END);
 		    if(fwrite(&m, sizeof(m), 1, arq_musica)!=1){
 		    	printf("Adicionar musica: Falhou a escrita do registro");
-		    	return 1;
+		    	system("pause");
 			}
 		
 			printf("\n\n\t MUSICA CADASTRADA COM SUCESSO... :) \n\n \t DIGITE QUALQUER TECLA PARA VOLTAR: ");		
 			getche();
 			
-			if(1 == 1){
-				tela_index_adm();	
-			}else{
-				tela_index_user();
-			}
-        	
-        	
-        	
+			tela_index_adm();	
+        	   	
 }
 
-void tela_musica_listar(){
+void tela_musica_listar(char type_user){
      
  			system("cls");
 			printf("|------------------------------------------------------------|\n");
 			printf("|--------------- LISTAR MUSICA SPOTIFY ----------------------|\n");
 			printf("|------------------------------------------------------------|\n");
-            getch();
-		
+
+			arquivo_repositorio();
+			
+		    long int n_Linhas = 0;
+		    musica mus;
+		    rewind(arq_musica);
+		    
+			printf("\n\t TITULO \t\t\tAUTOR \n");
+			printf("\t --------------------------------------------------\n");
+		    
+			while(1){
+		    	
+			    if(fread(&mus, sizeof(mus), 1, arq_musica)!= 1)break; /*Sair do laço*/
+		        if(mus.Status=='*') continue; /*Passa ao próximo*/
+		        
+		        printf("\t %-30s %3s \n",mus.titulo, mus.autor);
+		        
+				n_Linhas++;
+		        if(n_Linhas%20==0)
+		            printf("Pressione <Enter> para continuar .  .  .");
+		            
+		    }
+			
 		
 			printf("\n\n\t Digite qualquer tecla para voltar: ");		
-			getche();
-        	//tela_index_user();
-        	
-        	
+			getche();	
+
+			if(type_user == 'a'){
+				tela_index_adm();
+			}else{
+				tela_index_user();	
+			}
+			
+
 }
 
-void tela_musica_consultar(){
+void tela_musica_consultar(char type_user){
      
  			system("cls");
 			printf("|------------------------------------------------------------|\n");
 			printf("|-------------- CONSULTAR MUSICA SPOTIFY --------------------|\n");
 			printf("|------------------------------------------------------------|\n");
-            getch();
 		
+		    arquivo_repositorio();
+
+		    char s[255+1];
+		    printf("\n\t Qual o nome a procurar: ");
+		    gets(s);
+			fflush(stdin);
+			
+		    musica reg;
+		    rewind(arq_musica);
+		   
+		    while(fread(&reg, sizeof(musica), 1, arq_musica))
+		        if(reg.Status!='*' && strstr(reg.titulo, s))
+		            printf("\n\n\t %-30s %3s \n",reg.titulo, reg.autor);
+			
 		
 			printf("\n\n\t Digite qualquer tecla para voltar: ");		
 			getche();
-        	//tela_index_user();
+			if(type_user == 'a'){
+				tela_index_adm();
+			}else{
+				tela_index_user();	
+			}
         	
 
 }
@@ -92,12 +133,75 @@ void tela_musica_alterar(){
 			printf("|------------------------------------------------------------|\n");
 			printf("|---------------- ALTERAR MUSICA SPOTIFY --------------------|\n");
 			printf("|------------------------------------------------------------|\n");
-            getch();
 		
+			arquivo_repositorio();
+		
+			// LISTAR TODAS MUSICAS
+		    long int n_Linhas = 0;
+		    musica mus;
+		    rewind(arq_musica);
+		    
+			printf("\n\t ID \t TITULO \t\t\tAUTOR \n");
+			printf("\t --------------------------------------------------\n");
+		    
+			while(1){
+		    	
+			    if(fread(&mus, sizeof(mus), 1, arq_musica)!= 1)break; /*Sair do laço*/
+		    
+			    n_Linhas++;
+			
+				if(mus.Status=='*')continue; /*Passa ao próximo*/
+		        
+		        printf("\t %i \t %-30s %3s \n",n_Linhas,mus.titulo, mus.autor);
+		        			
+		        if(n_Linhas%20==0)
+		            printf("Pressione <Enter> para continuar .  .  .");
+		            
+		    }			
+			
+			// UPDATE DA MUSICA
+			
+			musica x;
+		    long int n_reg;
+		
+			int retorno;
+		
+		    printf("\n\tQual o numero do registro: ");
+		    scanf("%ld", & n_reg); fflush(stdin);
+				    
+			if(fseek(arq_musica, (n_reg-1)*sizeof(musica), SEEK_SET)!=0){
+		        printf("Registro inexistente ou problemas no posicionamento!!!");
+		        return 1;
+		    }
+		    
+		    if(fread(&x, sizeof(musica), 1, arq_musica)!= 1){
+		        printf("Problemas na leitura do registro!!!");
+		        return 1;
+		    }
+		   
+		    if(x.Status == '*'){
+		        printf("Um registro apagado não pode ser alterado!!! \n\n");
+		        return 1;
+		    }
+		   
+		    printf("\n\n Dados Atuais \n\n");
+		    
+		    //mostrar pessoa
+		    printf("%-30s %3s \n",x.titulo, x.autor);
+		    
+		    printf("\n\n Novos dados \n\n");
+		    cadastrar_musica(&x);
+		   
+		    // recuar um registro no arquivo
+		    fseek(arq_musica, -(long) sizeof(musica), SEEK_CUR);
+		    // reescrever o registro;
+		    fwrite(&x, sizeof(musica), 1, arq_musica);
+		    fflush(arq_musica); /*despejar os arquivos no disco rígido*/
+			
 		
 			printf("\n\n\t Digite qualquer tecla para voltar: ");		
 			getche();
-        	//tela_index_user();
+        	tela_index_adm();
         	
 
 }
@@ -108,13 +212,82 @@ void tela_musica_excluir(){
 			printf("|------------------------------------------------------------|\n");
 			printf("|---------------- EXCLUIR MUSICA SPOTIFY --------------------|\n");
 			printf("|------------------------------------------------------------|\n");
-            getch();
 		
 		
-			printf("\n\n\t Digite qualquer tecla para voltar: ");		
-			getche();
-        	//tela_index_user();
-        	
+			arquivo_repositorio();
+		
+			// LISTAR TODAS MUSICAS
+		    long int n_Linhas = 0;
+		    musica mus;
+		    rewind(arq_musica);
+		    
+			printf("\n\t ID \t TITULO \t\t\tAUTOR \n");
+			printf("\t --------------------------------------------------\n");
+		    
+			while(1){
+		    	
+			    if(fread(&mus, sizeof(mus), 1, arq_musica)!= 1)break; /*Sair do laço*/
+		    
+			    n_Linhas++;
+			
+				if(mus.Status=='*')continue; /*Passa ao próximo*/
+		        
+		        printf("\t %i \t %-30s %3s \n",n_Linhas,mus.titulo, mus.autor);
+		        			
+		        if(n_Linhas%20==0)
+		            printf("Pressione <Enter> para continuar .  .  .");
+		            
+		    }			
+		
+		
+			// EXCLUIR 			
+		    musica x;
+		    long int n_reg;
+		    char resp;
+		   
+		    printf("\n\n\tQual o numero do registro: ");
+		    scanf("%ld", & n_reg); fflush(stdin);
+		    
+		    if(fseek(arq_musica, (n_reg - 1)*sizeof(musica), SEEK_SET)!= 0){
+		        printf("Registro inexistente ou problemas no registro!!!");
+		        return 1;
+		    }
+		    
+		    if(fread(&x, sizeof(musica), 1, arq_musica)!= 1){
+		        printf("Problema na leitura do registro!!!");
+		        return 1;
+		    }
+		    
+		    if(x.Status=='*'){
+		        printf("Registro já está apagado!!!\n\n");
+		        return 1;
+		    }
+		    
+		    printf("\n\n Dados atuais \n\n");
+		    
+			printf("%-30s %3s \n",x.titulo, x.autor);
+		    
+			printf("\n\n Apagar o registro (s/n)???: "); resp = getchar();
+		    
+			fflush(stdin);
+		    
+			if(toupper(resp)!= 'S') return 1;
+		   
+		    x.Status= '*';
+		    // recuar um registro no arquivo
+		    fseek(arq_musica, -(long) sizeof(musica), SEEK_CUR);
+		    // reescrever o registro;
+		    fwrite(&x, sizeof(musica), 1, arq_musica);
+		    fflush(arq_musica); /*Despejar os arquivos no disco rígido*/
+		      
+					
+		
+			printf("\n\n\t Musica excluida com sucesso... :)\n\t digite qualquer tecla para voltar ao menu. ");		
+			getche();	
+
+
+			tela_index_adm();
+      	
 
 }
 

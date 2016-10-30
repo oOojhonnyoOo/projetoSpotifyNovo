@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "tela_menu_adm.c"
+#include "tela_main.c"
 
 #define TAM_NOME 50
 #define TAM_LOGIN 15

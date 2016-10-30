@@ -3,13 +3,11 @@
 #include <string.h>
 #include <conio.h>
 #include <ctype.h>
-#include "tela_menu_user.c"
-
+#include "tela_main.c"
 
 #define TAM_NOME 50
 #define TAM_LOGIN 15
 #define TAM_SENHA 15
-
 
 typedef struct{
     char login[TAM_LOGIN+1];
@@ -51,7 +49,7 @@ int main(){
 			printf("|-------------------- LOGIN  SPOTIFY -----------------------|\n");
 			printf("|-----------------------------------------------------------|\n");
 			
-			printf("\tlogin : ");
+			printf("\n\tlogin : ");
 			gets(login);	
 			printf("\tsenha : ");
 			
