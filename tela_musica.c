@@ -23,7 +23,7 @@ void arquivo_repositorio(){
 	arq_musica = fopen("banco\\musica.txt","r+b");	
 }
 
-void tela_musica_cadastrar(){
+void tela_musica_cadastrar(char type_user, int id_usuario){
    
      
  			system("cls");
@@ -50,7 +50,7 @@ void tela_musica_cadastrar(){
         	   	
 }
 
-void tela_musica_listar(char type_user){
+void tela_musica_listar(char type_user, int id_usuario){
      
  			system("cls");
 			printf("|------------------------------------------------------------|\n");
@@ -86,13 +86,13 @@ void tela_musica_listar(char type_user){
 			if(type_user == 'a'){
 				tela_index_adm();
 			}else{
-				tela_index_user();	
+				tela_index_user(id_usuario);	
 			}
 			
 
 }
 
-void tela_musica_consultar(char type_user){
+void tela_musica_consultar(char type_user,int id_usuario){
      
  			system("cls");
 			printf("|------------------------------------------------------------|\n");
@@ -119,7 +119,7 @@ void tela_musica_consultar(char type_user){
 			if(type_user == 'a'){
 				tela_index_adm();
 			}else{
-				tela_index_user();	
+				tela_index_user(id_usuario);	
 			}
         	
 
@@ -127,7 +127,7 @@ void tela_musica_consultar(char type_user){
 
 
 
-void tela_musica_alterar(){
+void tela_musica_alterar(char type_user, int id_usuario){
      
  			system("cls");
 			printf("|------------------------------------------------------------|\n");
@@ -206,7 +206,7 @@ void tela_musica_alterar(){
 
 }
 
-void tela_musica_excluir(){
+void tela_musica_excluir(char type_user, int id_usuario){
      
  			system("cls");
 			printf("|------------------------------------------------------------|\n");

@@ -16,10 +16,25 @@ typedef struct{
 }Pessoa;
 
 void cadastrar_Pessoa(Pessoa *p){
-    printf("\n\n\tlogin:    "); gets(p->login);
-    printf("\tsenha:    "); gets(p->senha);
-    p->Status = ' ';
+    int w;
+    char verifica;
+	printf("\n\n\t Digite seu login:    "); gets(p->login);
+    printf("\t Digite sua senha:    ");
+	for ( w = 0 ; w < TAM_SENHA ; w++ ) {
+			   	
+		verifica = getch();
+		       
+		if (verifica == 13){
+			break;
+		}else{
+			p->senha[w] = verifica;
+			printf("*");
+		}
+		   			    
+	}		
+	p->Status = ' ';
     fflush(stdin);
+    
 }
 
 int main(){
@@ -71,12 +86,15 @@ int main(){
 
 		    Pessoa reg;
 		    rewind(usuario);
-		   
-		    while(fread(&reg, sizeof(Pessoa), 1, usuario))
+		   	int contador = 0;
+		    while(fread(&reg, sizeof(Pessoa), 1, usuario)){
+		    	contador++;
 		        if(reg.Status!='*' && strstr(reg.login, login) && strstr(reg.senha, senha)){
-		        	tela_index_user();
+					tela_index_user(contador);
 		        	return 1;
 				}
+			}
+			
 			
 			printf("Conta inexistente :( ");
 
@@ -93,14 +111,23 @@ int main(){
 			cadastrar_Pessoa(&x);
 
 			fseek(usuario, 0L, SEEK_END);
-		    if(fwrite(&x, sizeof(x), 1, usuario)!=1){
+		    
+			if(fwrite(&x, sizeof(x), 1, usuario)!=1){
 		    	printf("Adicionar pessoa: Falhou a escrita do registro");
 		    	return 1;
 			}
-		    
-		    
-		    
-			tela_index_user();
+
+			//LOGANDO USUARIO CADASTRADO
+		    Pessoa regx;
+		    rewind(usuario);
+		   	int contadorx = 0;
+		    while(fread(&regx, sizeof(Pessoa), 1, usuario)){
+		    	contadorx++;
+		        if(regx.Status!='*' && strstr(regx.login, x.login) && strstr(regx.senha, x.senha)){
+					tela_index_user(contadorx);
+		        	return 1;
+				}
+			}
 			
 			break;
 		
@@ -109,3 +136,4 @@ int main(){
 	fclose(usuario);			
 
 }
+

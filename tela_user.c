@@ -21,7 +21,7 @@ void usuario_repositorio(){
 }
 
 
-void tela_user_listar(char type_user){
+void tela_user_listar(char type_user, int id_usuario){
      
             int opcao;
 
@@ -35,15 +35,21 @@ void tela_user_listar(char type_user){
 		    long int n_Linhas = 0;
 		    TipoPessoa reg;
 		    rewind(usuario);
+	
+			printf("\n\t ID \t LOGIN \t\t\tSENHA \n");
+			printf("\t --------------------------------------------------\n");
+	
 		    
 		    while(1){
 		    	
 			    if(fread(&reg, sizeof(reg), 1, usuario)!= 1)break; /*Sair do laço*/
-		        if(reg.Status=='*') continue; /*Passa ao próximo*/
 		        
-		        printf("%-30s %3s \n",reg.login, reg.senha);
+		        n_Linhas++;
 		        
-				n_Linhas++;
+				if(reg.Status=='*') continue; /*Passa ao próximo*/
+
+		        printf("\t %i \t %-30s %3s \n",n_Linhas,reg.login,reg.senha);
+		        	
 		        if(n_Linhas%20==0)
 		            printf("Pressione <Enter> para continuar .  .  .");
 		            
@@ -61,17 +67,33 @@ void tela_user_listar(char type_user){
      
 }
 
-void tela_user_consultar(){
+void tela_user_consultar(char type_user,int id_usuario){
      
  			system("cls");
 			printf("|------------------------------------------------------------|\n");
 			printf("|------------- CONSULTAR USUARIO SPOTIFY --------------------|\n");
 			printf("|------------------------------------------------------------|\n");
-            getch();
 
+
+		    char s[255+1];
+		    printf("\n\t Qual o nome a procurar: ");
+		    gets(s);
+			fflush(stdin);
+			
+		    TipoPessoa reg;
+		    rewind(usuario);
+		   
+		    while(fread(&reg, sizeof(TipoPessoa), 1, usuario))
+		        if(reg.Status!='*' && strstr(reg.login, s))
+		            printf("\n\n\t %-30s %3s \n",reg.login, reg.senha);
+		
 			printf("\n\n\t Digite qualquer tecla para voltar: ");		
 			getche();
-        	tela_index_user();
+			if(type_user == 'a'){
+				tela_index_adm();
+			}else{
+				tela_index_user(id_usuario);	
+			}
 
 }
 

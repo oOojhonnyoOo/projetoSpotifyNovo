@@ -8,10 +8,16 @@
 #include "tela_perfil.c"
 #include "tela_playlist.c"
 
+#define TAM_NOME 50
+#define TAM_LOGIN 15
+#define TAM_SENHA 15
+
 char opcao;
 char type_user;
 
-void tela_index_user(){
+
+
+void tela_index_user(int id_usuario){
 	
 	type_user = 'u';
 	
@@ -49,15 +55,15 @@ void tela_index_user(){
 			switch(opcao){
 
 				case 'a':
-					tela_user_listar(type_user);
+					tela_user_listar(type_user,id_usuario);
 					break;
 
 				case 'b':
-                    tela_user_consultar();
+                    tela_user_consultar(type_user,id_usuario);
 					break;           
            
 				case 'c':
-					tela_index_user();
+					tela_index_user(id_usuario);
 					break;
 				
 			}
@@ -82,15 +88,15 @@ void tela_index_user(){
 
 
 				case 'a':
-					tela_musica_listar(type_user);
+					tela_musica_listar(type_user,id_usuario);
 					break;
 
 				case 'b':
-					tela_musica_consultar(type_user);
+					tela_musica_consultar(type_user,id_usuario);
 					break;
 
 				case 'c':
-					tela_index_user();
+					tela_index_user(id_usuario);
 					break;
 				
 			}
@@ -116,23 +122,23 @@ void tela_index_user(){
 			switch(opcao){
 
 				case 'a':
-					tela_playlist_listar();
+					tela_playlist_listar(type_user,id_usuario);
 					break;
 
 				case 'b':
-					tela_playlist_cadastrar();
+					tela_playlist_cadastrar(type_user,id_usuario);
 					break;
 
 				case 'c':
-					tela_playlist_consultar();
+					tela_playlist_consultar(type_user,id_usuario);
 					break;
 
 				case 'd':
-					tela_playlist_minhas();
+					tela_playlist_minhas(type_user,id_usuario);
 					break;
 
 				case 'e':
-					tela_index_user();
+					tela_index_user(id_usuario);
 					break;
 				
 			}
@@ -148,7 +154,8 @@ void tela_index_user(){
 
 			printf("\n\t a- alterar nome");
 			printf("\n\t b- alterar login ");
-			printf("\n\t c- voltar ");
+			printf("\n\t c- alterar senha ");
+			printf("\n\t d- voltar ");
 
 			printf("\n\n\t escolha sua opcao: ");		
 			opcao = getche();
@@ -156,15 +163,19 @@ void tela_index_user(){
 			switch(opcao){
 
 				case 'a':
-					tela_perfil_nome();
+					tela_perfil_nome(type_user,id_usuario);
 					break;
 					
 				case 'b':
-					tela_perfil_login();
+					tela_perfil_login(type_user,id_usuario);
+					break;
+					
+				case 'c':
+					tela_perfil_senha(type_user,id_usuario);
 					break;
                     					
-				case 'c':
-					tela_index_user();
+				case 'd':
+					tela_index_user(id_usuario);
 					break;
 				
 			}
@@ -173,6 +184,7 @@ void tela_index_user(){
 
 		case '5':
 
+			system("cls");
 			system("pause");
 			
 			break;
@@ -220,11 +232,11 @@ void tela_index_adm(){
 			switch(opcao){
 
 				case 'a':
-					tela_user_listar(type_user);
+					tela_user_listar(type_user,99);
 					break;
 
 				case 'b':
-                    //tela_user_consultar();
+                    tela_user_consultar(type_user,99);
 					break;           
            
 				case 'c':
@@ -256,22 +268,22 @@ void tela_index_adm(){
 
 
 				case 'a':
-					tela_musica_cadastrar();
+					tela_musica_cadastrar(type_user,99);
 					break;
 
 				case 'b':
-					tela_musica_listar(type_user);
+					tela_musica_listar(type_user,99);
 					break;
 				case 'c':
-					tela_musica_consultar(type_user);
+					tela_musica_consultar(type_user,99);
 					break;
 			
 				case 'd':
-					tela_musica_alterar();
+					tela_musica_alterar(type_user,99);
 					break;
 				
 				case 'e':
-					tela_musica_excluir();
+					tela_musica_excluir(type_user,99);
 					break;
 
 				case 'f':
@@ -299,19 +311,19 @@ void tela_index_adm(){
 			switch(opcao){
 
 				case 'a':
-					//tela_playlist_listar();
+					//tela_playlist_listar(type_user,99);
 					break;
 
 				case 'b':
-					//tela_playlist_cadastrar();
+					//tela_playlist_cadastrar(type_user,99);
 					break;
 
 				case 'c':
-					//tela_playlist_consultar();
+					//tela_playlist_consultar(type_user,99);
 					break;
 
 				case 'd':
-					//tela_playlist_minhas();
+					//tela_playlist_minhas(type_user,99);
 					break;
 
 				case 'e':

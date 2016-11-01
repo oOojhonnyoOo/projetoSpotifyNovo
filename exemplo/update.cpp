@@ -43,12 +43,6 @@ int main(int argc, char *argv[]) {
     printf("Qual o numero do registro: ");
     scanf("%ld", & n_reg); fflush(stdin);
 
-    int i = sizeof(Pessoa);
-    int z = (n_reg-1);
-    int w = (n_reg-1)*sizeof(Pessoa);
-    // tenho que pegar o n_reg ele eh o id do usuario
-    
-    printf("tamanho pessoa: %i\n %i \n %i ",i,z,w);
     
 	if(fseek(fp, (n_reg-1)*sizeof(Pessoa), SEEK_SET)!=0){
         printf("Registro inexistente ou problemas no posicionamento!!!");
