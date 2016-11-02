@@ -37,11 +37,13 @@ void tela_user_listar(char type_user, int id_usuario){
 		    TipoPessoa reg;
 		    rewind(usuario);
 	
-			printf("\n\t ID \t LOGIN \t\t\tSENHA \n");
+			
+			/* Verifica se e usuario ou adm e exibe os campos de acordo */
+			if(type_user == 'a'){ 
+			
+			printf("\n\t ID \t LOGIN \t\t\t\tNOME \n");
 			printf("\t --------------------------------------------------\n");
-	
-		    
-		    while(1){
+				while(1){
 		    	
 			    if(fread(&reg, sizeof(reg), 1, usuario)!= 1)break; /*Sair do laço*/
 		        
@@ -49,12 +51,32 @@ void tela_user_listar(char type_user, int id_usuario){
 		        
 				if(reg.Status=='*') continue; /*Passa ao próximo*/
 
-		        printf("\t %i \t %-30s %3s %3s \n",n_Linhas,reg.login,reg.senha,reg.nome) ;
+		        printf("\t %i \t %-30s %3s \n",n_Linhas,reg.login,reg.nome) ;
 		        	
 		        if(n_Linhas%20==0)
 		            printf("Pressione <Enter> para continuar .  .  .");
 		            
-		    }
+		    	}
+			}else {
+				printf("\n\t ID \t NOME \n");
+				printf("\t --------------------------------------------------\n");
+				
+				while(1){
+		    	
+			    if(fread(&reg, sizeof(reg), 1, usuario)!= 1)break; /*Sair do laço*/
+		        
+		        n_Linhas++;
+		        
+				if(reg.Status=='*') continue; /*Passa ao próximo*/
+
+		        printf("\t %i \t %3s \n",n_Linhas,reg.nome) ; 
+		        	
+		        if(n_Linhas%20==0)
+		            printf("Pressione <Enter> para continuar .  .  .");
+		            
+		    	}
+			}	    
+		   
 						
 			printf("\n\n\t Digite qualquer tecla para voltar: ");		
 			getche();	
