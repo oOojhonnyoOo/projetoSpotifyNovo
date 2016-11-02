@@ -71,7 +71,7 @@ void tela_playlist_listar(char type_user, int id_usuario){
 void tela_playlist_cadastrar(char type_user, int id_usuario){
      
  			system("cls");
-			printf("|------------------------------------------------------------%i|\n",id_usuario);
+			printf("|------------------------------------------------------------|\n");
 			printf("|------------- CADASTRAR PLAYLIST SPOTIFY -------------------|\n");
 			printf("|------------------------------------------------------------|\n");
 		
@@ -97,13 +97,32 @@ void tela_playlist_consultar(char type_user, int id_usuario){
 			printf("|------------------------------------------------------------|\n");
 			printf("|------------- CONSULTAR PLAYLIST SPOTIFY -------------------|\n");
 			printf("|------------------------------------------------------------|\n");
-            getch();
-		
+
+			arquivo_playlist();
+
+			char s[255+1];
+		    printf("\n\t Pesquise o titulo da playlist: ");
+		    gets(s);
+			fflush(stdin);
+			
+		    Playlist reg;
+		    rewind(arq_playlist);
+
+		    printf("\n\n\t TITULO DA PLAYLIST \t\t NOME DO USUARIO\n");
+		    printf("\t ------------------------------------------------\n");
+		   
+		    while(fread(&reg, sizeof(Playlist), 1, arq_playlist))
+		        if(reg.Status!='*' && strstr(reg.titulo, s))
+		            printf("\t %-30s %10s \n",reg.titulo,get_nome_usuario(reg.id_user));
 		
 			printf("\n\n\t Digite qualquer tecla para voltar: ");		
 			getche();
-        	tela_index_user(id_usuario);
-        	
+			
+			if(type_user == 'a'){
+				tela_index_adm();
+			}else{
+				tela_index_user(id_usuario);	
+			}
 
 }
 
@@ -114,12 +133,36 @@ void tela_playlist_minhas(char type_user, int id_usuario){
 			printf("|------------------------------------------------------------|\n");
 			printf("|--------------- MINHAS PLAYLIST SPOTIFY --------------------|\n");
 			printf("|------------------------------------------------------------|\n");
-            getch();
-		
+			
+			
+			arquivo_playlist();
+
+		    long int n_Linhas = 0;
+		    Playlist reg;
+		    rewind(arq_playlist);
+		    
+		    printf("\n\n\t TITULO DA PLAYLIST \t\t NOME DO USUARIO\n");
+		    printf("\t ------------------------------------------------\n");
+		    
+		    while(1){
+		    	
+			    if(fread(&reg, sizeof(reg), 1, arq_playlist)!= 1) break; /*Sair do laço*/
+		        if(reg.Status=='*')  continue; /*Passa ao próximo*/
+		        
+		        if(reg.id_user == id_usuario){
+			        printf("\t %-30s %10s \n",reg.titulo,get_nome_usuario(reg.id_user));		        	
+				}
+		        
+				n_Linhas++;
+		        if(n_Linhas%20==0)
+		            printf("Pressione <Enter> para continuar .  .  .");
+		            
+		    }
 		
 			printf("\n\n\t Digite qualquer tecla para voltar: ");		
 			getche();
-        	tela_index_user(id_usuario);
-        	
+
+			tela_index_user(id_usuario);	
+       	
 
 }
