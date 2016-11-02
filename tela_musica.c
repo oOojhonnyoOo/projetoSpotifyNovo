@@ -171,7 +171,7 @@ void tela_musica_alterar(char type_user, int id_usuario){
 				    
 			if(fseek(arq_musica, (n_reg-1)*sizeof(musica), SEEK_SET)!=0){
 		        printf("Registro inexistente ou problemas no posicionamento!!!");
-		        return 1;
+		        system("pause");
 		    }
 		    
 		    if(fread(&x, sizeof(musica), 1, arq_musica)!= 1){

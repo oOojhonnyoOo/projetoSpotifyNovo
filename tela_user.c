@@ -10,6 +10,7 @@
 
 typedef struct{
     char login[TAM_LOGIN+1];
+    char nome[TAM_NOME+1];
     char senha[TAM_SENHA+1];
     char Status; /* '*' indica que o registro está apagado*/
 }TipoPessoa;
@@ -48,7 +49,7 @@ void tela_user_listar(char type_user, int id_usuario){
 		        
 				if(reg.Status=='*') continue; /*Passa ao próximo*/
 
-		        printf("\t %i \t %-30s %3s \n",n_Linhas,reg.login,reg.senha);
+		        printf("\t %i \t %-30s %3s %3s \n",n_Linhas,reg.login,reg.senha,reg.nome) ;
 		        	
 		        if(n_Linhas%20==0)
 		            printf("Pressione <Enter> para continuar .  .  .");
@@ -97,3 +98,36 @@ void tela_user_consultar(char type_user,int id_usuario){
 
 }
 
+char*get_nome_usuario(int id_usuario)
+{
+	
+	usuario_repositorio();
+			
+	TipoPessoa x;		
+		    
+	if(fseek(usuario, (id_usuario-1)*sizeof(TipoPessoa), SEEK_SET)!=0){
+		printf("Registro inexistente ou problemas no posicionamento!!!");
+		system("PAUSE");
+	}
+		    
+	if(fread(&x, sizeof(TipoPessoa), 1, usuario)!= 1){
+		printf("Problemas na leitura do registro!!!");
+		system("PAUSE");
+	}
+		   
+	if(x.Status == '*'){
+		printf("Um registro apagado não pode ser alterado!!! \n\n");
+		system("PAUSE");
+	}
+		   
+    char retorno[200];
+    
+    strcpy(retorno, x.nome);
+   
+   	//printf(" %s ",Retorno);
+   		    		   
+	fflush(usuario); /*despejar os arquivos no disco rígido*/
+
+	return retorno;
+
+}

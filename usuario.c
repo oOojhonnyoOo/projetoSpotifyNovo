@@ -11,6 +11,7 @@
 
 typedef struct{
     char login[TAM_LOGIN+1];
+    char nome[TAM_NOME+1];
     char senha[TAM_SENHA+1];
     char Status; /* '*' indica que o registro está apagado*/
 }Pessoa;
@@ -18,7 +19,8 @@ typedef struct{
 void cadastrar_Pessoa(Pessoa *p){
     int w;
     char verifica;
-	printf("\n\n\t Digite seu login:    "); gets(p->login);
+	printf("\n\n\t Digite seu nome:    "); gets(p->nome);
+	printf("\t Digite seu login:    "); gets(p->login);
     printf("\t Digite sua senha:    ");
 	for ( w = 0 ; w < TAM_SENHA ; w++ ) {
 			   	
