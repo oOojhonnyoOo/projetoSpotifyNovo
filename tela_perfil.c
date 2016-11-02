@@ -10,6 +10,7 @@
 
 typedef struct{
     char login[TAM_LOGIN+1];
+    char nome[TAM_NOME+1];    
     char senha[TAM_SENHA+1];
     char Status; /* '*' indica que o registro está apagado*/
 }Pessoa2;
@@ -38,10 +39,18 @@ void alterar_senha(Pessoa2 *p){
 }
 
 void alterar_login(Pessoa2 *p){
-    gets(p->login);
+    gets(p->nome);
     p->Status = ' ';
     fflush(stdin);
 }
+
+
+void alterar_nome(Pessoa2 *p){
+    gets(p->nome);
+    p->Status = ' ';
+    fflush(stdin);
+}
+
 
 FILE *usuario;
 
@@ -60,10 +69,40 @@ void tela_perfil_nome(char type_user, int id_usuario){
 
 			printf("%i",id_usuario);		
 		
+			usuario_repositorio2();
+			
+			Pessoa2 x;		
+		    
+			if(fseek(usuario, (id_usuario-1)*sizeof(Pessoa2), SEEK_SET)!=0){
+		        printf("Registro inexistente ou problemas no posicionamento!!!");
+		        system("PAUSE");
+		    }
+		    
+		    if(fread(&x, sizeof(Pessoa2), 1, usuario)!= 1){
+		        printf("Problemas na leitura do registro!!!");
+		        system("PAUSE");
+		    }
+		   
+		    if(x.Status == '*'){
+		        printf("Um registro apagado não pode ser alterado!!! \n\n");
+		        system("PAUSE");
+		    }
+		   
+		    printf("\n\n\t Seu login atual : %-30s \n",x.login);
+		    		    
+		    printf("\t Digite seu novo nome:");
+		    
+			alterar_nome(&x);
+		   
+		    // recuar um registro no arquivo
+		    fseek(usuario, -(long) sizeof(Pessoa2), SEEK_CUR);
+		    // reescrever o registro;
+		    fwrite(&x, sizeof(Pessoa2), 1, usuario);
+		    fflush(usuario); /*despejar os arquivos no disco rígido*/
+		
 			printf("\n\n\t Digite qualquer tecla para voltar: ");		
 			getche();
-        	tela_index_user(id_usuario);
-        	
+        	tela_index_user(id_usuario);           	
 
 }
 
@@ -113,11 +152,13 @@ void tela_perfil_login(char type_user, int id_usuario){
 
 void tela_perfil_senha(char type_user, int id_usuario){
      
- 			system("cls");
+     		char senhaAntiga[50];
+ 			
+			system("cls");
 			printf("|------------------------------------------------------------|\n");
 			printf("|--------------- ALTERAR SENHA SPOTIFY ----------------------|\n");
 			printf("|------------------------------------------------------------|\n");
-
+			
 			usuario_repositorio2();
 			
 			Pessoa2 x;		
@@ -138,7 +179,14 @@ void tela_perfil_senha(char type_user, int id_usuario){
 		    }
 		   
 		    printf("\n\n\t Seu login: %-30s \n",x.login);
-		    		    
+
+			do{
+			    printf("\t Digite sua senha antiga:");
+				gets(senhaAntiga);
+			}while(strcmp (senhaAntiga,x.senha) != 0);
+		     
+		     
+		     
 		    printf("\t Digite sua nova senha:");
 		    
 			alterar_senha(&x);
