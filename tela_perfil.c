@@ -203,3 +203,24 @@ void tela_perfil_senha(char type_user, int id_usuario){
 
 }
 
+
+void tela_perfil_ver_dados(char type_user, int id_usuario){
+     
+ 			system("cls");
+			printf("|------------------------------------------------------------|\n");
+			printf("|------------- VER DADOS DO USUARIO SPOTIFY -----------------|\n");
+			printf("|------------------------------------------------------------|\n");
+
+			usuario_repositorio2();
+
+			printf("\n\n\t DADOS DO USUARIO \n\n");
+			printf("\tID:    %i\n",id_usuario);			
+			printf("\tNOME:  \n");
+			printf("\tLOGIN: \n");
+			printf("\tSENHA: \n");
+		
+			printf("\n\n\t Digite qualquer tecla para voltar: ");		
+			getche();
+        	tela_index_user(id_usuario);        	
+
+}

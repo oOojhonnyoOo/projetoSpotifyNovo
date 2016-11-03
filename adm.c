@@ -13,18 +13,29 @@ int main(){
    
     int i;
     char pwAdm[TAM_SENHA] = "m@st3r2016";
-    char conf_pwAdm[TAM_SENHA];
-
+    char conf_pwAdm[TAM_SENHA] = {};
+    int x;
+    char verifica;
+    
     printf("Bem vindo, adm.\n");
     
     char *pos;
     do{
         
-		printf("Digite sua senha para entrar: ");
-        fgets(conf_pwAdm, TAM_SENHA, stdin);
+		printf("\nDigite sua senha para entrar: ");
         
-        if ((pos=strchr(conf_pwAdm, '\n')) != NULL)
-        *pos = '\0'; 
+		for ( x = 0 ; x < TAM_SENHA ; x++ ) {
+				   	
+			verifica = getch();
+			       
+			if (verifica == 13){
+				break;
+			}else{
+				conf_pwAdm[x] = verifica;
+				printf("*");
+			}
+			   			    
+		}        
         
     }while(strcmp(conf_pwAdm, pwAdm) != 0);
 

@@ -39,15 +39,15 @@ void tela_playlist_listar(char type_user, int id_usuario){
 		    Playlist reg;
 		    rewind(arq_playlist);
 		    
-		    printf("\n\n\t TITULO DA PLAYLIST \t\t NOME DO USUARIO\n");
-		    printf("\t ------------------------------------------------\n");
+		    printf("\n\n\t TITULO DA PLAYLIST \t\t NOME DO USUARIO \t\t FAVORITAS \n");
+		    printf("\t ---------------------------------------------------------------------------\n");
 		    
 		    while(1){
 		    	
 			    if(fread(&reg, sizeof(reg), 1, arq_playlist)!= 1)break; /*Sair do laço*/
 		        if(reg.Status=='*') continue; /*Passa ao próximo*/
 		        
-		        printf("\t %-30s %10s \n",reg.titulo,get_nome_usuario(reg.id_user));
+		        printf("\t %-30s %10s \t\t\t * \n",reg.titulo,get_nome_usuario(reg.id_user));
 		        
 				n_Linhas++;
 		        if(n_Linhas%20==0)
@@ -127,6 +127,29 @@ void tela_playlist_consultar(char type_user, int id_usuario){
 }
 
 
+void tela_playlist_excluir(char type_user, int id_usuario){
+     
+ 			system("cls");
+			printf("|------------------------------------------------------------|\n");
+			printf("|--------------- EXCLUIR PLAYLIST SPOTIFY -------------------|\n");
+			printf("|------------------------------------------------------------|\n");
+
+			arquivo_playlist();
+
+			
+		
+			printf("\n\n\t Digite qualquer tecla para voltar: ");		
+			getche();
+			
+			if(type_user == 'a'){
+				tela_index_adm();
+			}else{
+				tela_index_user(id_usuario);	
+			}
+
+}
+
+
 void tela_playlist_minhas(char type_user, int id_usuario){
      
  			system("cls");
@@ -141,7 +164,7 @@ void tela_playlist_minhas(char type_user, int id_usuario){
 		    Playlist reg;
 		    rewind(arq_playlist);
 		    
-		    printf("\n\n\t TITULO DA PLAYLIST \t\t NOME DO USUARIO\n");
+		    printf("\n\n\t TITULO DA PLAYLIST \t\t NOME DO USUARIO \n");
 		    printf("\t ------------------------------------------------\n");
 		    
 		    while(1){
@@ -166,3 +189,128 @@ void tela_playlist_minhas(char type_user, int id_usuario){
        	
 
 }
+
+
+
+void tela_playlist_musica(char type_user, int id_usuario){
+     
+ 			system("cls");
+			printf("|------------------------------------------------------------|\n");
+			printf("|-------------- MUSICAS DA PLAYLIST SPOTIFY -----------------|\n");
+			printf("|------------------------------------------------------------|\n");	
+			
+			arquivo_playlist();
+
+			
+		
+			printf("\n\n\t Digite qualquer tecla para voltar: ");		
+			getche();
+
+			if(type_user == 'a'){
+				tela_index_adm();
+			}else{
+				tela_index_user(id_usuario);	
+			}	
+       	
+
+}
+
+
+void tela_playlist_favoritar(char type_user, int id_usuario){
+     
+ 			system("cls");
+			printf("|------------------------------------------------------------|\n");
+			printf("|--------------- FAVORITAR PLAYLIST SPOTIFY -----------------|\n");
+			printf("|------------------------------------------------------------|\n");	
+			
+			arquivo_playlist();
+
+			
+		
+			printf("\n\n\t Digite qualquer tecla para voltar: ");		
+			getche();
+
+			if(type_user == 'a'){
+				tela_index_adm();
+			}else{
+				tela_index_user(id_usuario);	
+			}	
+       	
+
+}
+
+
+
+void tela_playlist_cadastrar_musica(char type_user, int id_usuario){
+     
+ 			system("cls");
+			printf("|------------------------------------------------------------|\n");
+			printf("|------------ CADASTRAR MUSICA PLAYLIST SPOTIFY -------------|\n");
+			printf("|------------------------------------------------------------|\n");	
+			
+			arquivo_playlist();
+
+			
+		
+			printf("\n\n\t Digite qualquer tecla para voltar: ");		
+			getche();
+
+			if(type_user == 'a'){
+				tela_index_adm();
+			}else{
+				tela_index_user(id_usuario);	
+			}	
+       	
+
+}
+
+
+
+void tela_playlist_listar_musica(char type_user, int id_usuario){
+     
+ 			system("cls");
+			printf("|------------------------------------------------------------|\n");
+			printf("|-------------- LISTAR MUSICA PLAYLIST SPOTIFY --------------|\n");
+			printf("|------------------------------------------------------------|\n");	
+			
+			arquivo_playlist();
+
+			
+		
+			printf("\n\n\t Digite qualquer tecla para voltar: ");		
+			getche();
+
+			if(type_user == 'a'){
+				tela_index_adm();
+			}else{
+				tela_index_user(id_usuario);	
+			}	
+       	
+
+}
+
+
+void tela_playlist_excluir_musica(char type_user, int id_usuario){
+     
+ 			system("cls");
+			printf("|------------------------------------------------------------|\n");
+			printf("|------------- EXCLUIR MUSICA PLAYLIST SPOTIFY --------------|\n");
+			printf("|------------------------------------------------------------|\n");	
+			
+			arquivo_playlist();
+
+			
+		
+			printf("\n\n\t Digite qualquer tecla para voltar: ");		
+			getche();
+
+			if(type_user == 'a'){
+				tela_index_adm();
+			}else{
+				tela_index_user(id_usuario);	
+			}	
+       	
+
+}
+
+
