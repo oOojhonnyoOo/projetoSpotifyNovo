@@ -112,41 +112,41 @@ void tela_index_user(int id_usuario){
 			printf("|------------------------------------------------------------|\n");
 
 			printf("\n\t a- Listar todas as playlists");
-			printf("\n\t b- Cadastrar playlist ");
-			printf("\n\t c- Consultar playlist ");
+			printf("\n\t b- Consultar playlist ");
+			printf("\n\t c- Favoritar playlist ");
 			printf("\n\t d- Minhas playlists ");
-			printf("\n\t e- Favoritar playlists ");
-			printf("\n\t f- Excluir playlists ");
-			printf("\n\t g- Voltar ");
+			printf("\n\t e- Listas musicas da playlists ");
+			printf("\n\t f- Voltar ");
 
 			printf("\n\n\t escolha sua opcao: ");		
 			opcao = getche();
 			
 			switch(opcao){
 
-				case 'a':
+			case 'a':
 					tela_playlist_listar(type_user,id_usuario);
 					break;
-
-				case 'b':
-					tela_playlist_cadastrar(type_user,id_usuario);
-					break;
-
-				case 'c':
+			case 'b':
 					tela_playlist_consultar(type_user,id_usuario);
 					break;
 
-				case 'd':
-					//tela_playlist_minhas(type_user,id_usuario);
+			case 'c':
+					tela_playlist_favoritar(type_user,id_usuario);
+					break;
+
+			case 'd':
+					
 					system("cls");
 					printf("|------------------------------------------------------------|\n");
 					printf("|---------------- MINHA PLAYLIST SPOTIFY --------------------|\n");
 					printf("|------------------------------------------------------------|\n");
 		
-					printf("\n\t a- Cadastrar musica na playlist");
-					printf("\n\t b- Listar musica da playlist ");
-					printf("\n\t c- Excluir musica da playlist ");
-					printf("\n\t d- Voltar ");
+					printf("\n\t a- Cadastrar playlist");
+					printf("\n\t b- Excluir playlist ");
+					printf("\n\t c- Ver minhas playlists ");
+					printf("\n\t d- Cadastrar musica na playlist ");
+					printf("\n\t e- Excluir musica na playlist ");
+					printf("\n\t f- Voltar ");
 		
 					printf("\n\n\t escolha sua opcao: ");		
 					opcao = getche();
@@ -154,38 +154,40 @@ void tela_index_user(int id_usuario){
 					switch(opcao){
 						
 						case 'a':
-							tela_playlist_cadastrar_musica(type_user,id_usuario);
+							tela_playlist_cadastrar(type_user,id_usuario);
 							break;
 						
 						case 'b':
-							tela_playlist_listar_musica(type_user,id_usuario);		
+							tela_playlist_excluir(type_user,id_usuario);
 							break;
 					
 						case 'c':
-							tela_playlist_excluir_musica(type_user,id_usuario);
+							tela_playlist_minhas(type_user,id_usuario);
 							break;
 					
 						case 'd':
+							tela_playlist_cadastrar_musica(type_user,id_usuario);
+							break;
+					
+						case 'e':
+							tela_playlist_excluir_musica(type_user,id_usuario);
+							break;
+					
+						case 'f':
 							tela_index_user(id_usuario);
 							break;
 						
 					}
-					
-					
+
 					break;
 
-				case 'e':
-					tela_playlist_favoritar(type_user,id_usuario);
+			case 'e':
+					tela_playlist_listar_musica(type_user,id_usuario);	
 					break;
 
-				case 'f':
-					tela_playlist_excluir(type_user,id_usuario);
-					break;
-
-				case 'g':
+			case 'f':
 					tela_index_user(id_usuario);
 					break;
-
 				
 			}
 			

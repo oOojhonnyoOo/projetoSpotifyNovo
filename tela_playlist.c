@@ -43,8 +43,9 @@ void tela_playlist_listar(char type_user, int id_usuario){
 		    while(1){
 		    	
 			    if(fread(&reg, sizeof(reg), 1, arq_playlist)!= 1)break; /*Sair do laço*/
-		        if(reg.Status=='*') continue; /*Passa ao próximo*/
 		        n_Linhas++;
+				if(reg.Status=='*') continue; /*Passa ao próximo*/
+		        
 		        printf("\t %-30s %10s \t\t     ",reg.titulo,get_nome_usuario(reg.id_user));
 				
 				busca_play_fav(id_usuario,n_Linhas);
@@ -130,6 +131,7 @@ void tela_playlist_consultar(char type_user, int id_usuario){
 
 void tela_playlist_excluir(char type_user, int id_usuario){
      
+     		int id_escolha;
  			system("cls");
 			printf("|------------------------------------------------------------|\n");
 			printf("|--------------- EXCLUIR PLAYLIST SPOTIFY -------------------|\n");
@@ -137,6 +139,67 @@ void tela_playlist_excluir(char type_user, int id_usuario){
 
 			arquivo_playlist();
 
+			//listar playlists
+		    long int n_Linhas = 0;
+		    Playlist reg;
+		    rewind(arq_playlist);
+		    
+		    printf("\n\n \t ID \t TITULO DA PLAYLIST \t\t NOME DO USUARIO \n");
+		    printf("\t ---------------------------------------------------------\n");
+		    
+		    while(1){
+		    	
+			    if(fread(&reg, sizeof(reg), 1, arq_playlist)!= 1)break; /*Sair do laço*/
+		        n_Linhas++;
+				if(reg.Status=='*') continue; /*Passa ao próximo*/
+		        if(reg.id_user == id_usuario){
+			        printf("\t %i \t %-30s %10s \t\t \n",n_Linhas,reg.titulo,get_nome_usuario(reg.id_user));		        	
+				}
+				
+		        if(n_Linhas%20==0)
+		            printf("Pressione <Enter> para continuar .  .  .");
+		            
+		    }
+
+
+			printf("\n\t Digite id da playlist que deseja excluir: ");
+			scanf("%i", &id_escolha);
+		    fflush(stdin); /*Despejar os arquivos no disco rígido*/
+			
+			//excluir playlist
+		    Playlist x;
+		    long int n_reg;
+		    char resp;
+
+		    if(fseek(arq_playlist, (id_escolha - 1)*sizeof(Playlist), SEEK_SET)!= 0){
+		        printf("Registro inexistente ou problemas no registro!!!");
+		        return 1;
+		    }
+		    if(fread(&x, sizeof(Playlist), 1, arq_playlist)!= 1){
+		        printf("Problema na leitura do registro!!!");
+		        return 1;
+		    }
+		    if(x.Status=='*'){
+		        printf("Registro já está apagado!!!\n\n");
+		        return 1;
+		    }
+		    
+		    printf("\n\n Dados atuais \n\n");
+		    
+			printf(" titulo da playlist: %-30s \n",x.titulo);
+		    
+			printf("\n\n Apagar o registro (s/n)???: "); resp = getchar();
+		    
+			fflush(stdin);
+		    
+			if(toupper(resp)!= 'S') return 1;
+		   
+		    x.Status= '*';
+		    // recuar um registro no arquivo
+		    fseek(arq_playlist, -(long) sizeof(Playlist), SEEK_CUR);
+		    // reescrever o registro;
+		    fwrite(&x, sizeof(Playlist), 1, arq_playlist);
+		    fflush(arq_playlist); /*Despejar os arquivos no disco rígido*/
 			
 		
 			printf("\n\n\t Digite qualquer tecla para voltar: ");		
@@ -293,8 +356,9 @@ void tela_playlist_cadastrar_musica(char type_user, int id_usuario){
 		    while(1){
 		    	
 			    if(fread(&reg, sizeof(reg), 1, arq_playlist)!= 1)break; /*Sair do laço*/
-		        if(reg.Status=='*') continue; /*Passa ao próximo*/
 		        n_Linhas++;
+				if(reg.Status=='*') continue; /*Passa ao próximo*/
+		        
 		        printf("\t %i \t %-30s %10s \t\t \n",n_Linhas,reg.titulo,get_nome_usuario(reg.id_user));
 				
 		        if(n_Linhas%20==0)
@@ -348,8 +412,8 @@ void tela_playlist_listar_musica(char type_user, int id_usuario){
 		    while(1){
 		    	
 			    if(fread(&reg, sizeof(reg), 1, arq_playlist)!= 1)break; /*Sair do laço*/
-		        if(reg.Status=='*') continue; /*Passa ao próximo*/
 		        n_Linhas++;
+				if(reg.Status=='*') continue; /*Passa ao próximo*/   
 		        printf("\t %i \t %-30s %10s \t\t \n",n_Linhas,reg.titulo,get_nome_usuario(reg.id_user));
 				
 		        if(n_Linhas%20==0)
@@ -381,6 +445,7 @@ void tela_playlist_listar_musica(char type_user, int id_usuario){
 
 void tela_playlist_excluir_musica(char type_user, int id_usuario){
      
+     		int id_escolha;
  			system("cls");
 			printf("|------------------------------------------------------------|\n");
 			printf("|------------- EXCLUIR MUSICA PLAYLIST SPOTIFY --------------|\n");
@@ -388,8 +453,8 @@ void tela_playlist_excluir_musica(char type_user, int id_usuario){
 			
 			arquivo_playlist();
 
-			
-		
+
+
 			printf("\n\n\t Digite qualquer tecla para voltar: ");		
 			getche();
 
