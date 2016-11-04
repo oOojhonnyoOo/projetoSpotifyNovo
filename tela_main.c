@@ -8,6 +8,8 @@
 #include "tela_perfil.c"
 #include "tela_playlist.c"
 #include "favoritar_playlist.c"
+#include "musica_playlist.c"
+
 
 #define TAM_NOME 50
 #define TAM_LOGIN 15
@@ -156,11 +158,11 @@ void tela_index_user(int id_usuario){
 							break;
 						
 						case 'b':
-							tela_playlist_excluir_musica(type_user,id_usuario);
+							tela_playlist_listar_musica(type_user,id_usuario);		
 							break;
 					
 						case 'c':
-							tela_playlist_listar_musica(type_user,id_usuario);
+							tela_playlist_excluir_musica(type_user,id_usuario);
 							break;
 					
 						case 'd':

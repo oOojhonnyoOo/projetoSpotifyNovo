@@ -24,8 +24,6 @@ void arquivo_playlist(){
 	arq_playlist = fopen("banco\\playlist.txt","r+b");	
 }
 
-
-
 void tela_playlist_listar(char type_user, int id_usuario){
      
  			system("cls");
@@ -271,7 +269,7 @@ void tela_playlist_favoritar(char type_user, int id_usuario){
 
 void tela_playlist_cadastrar_musica(char type_user, int id_usuario){
 	
-     		int id_mus_esc; 			
+     		int id_mus_esc,id_play_esc; 			
 			system("cls");
 			printf("|------------------------------------------------------------|\n");
 			printf("|------------ CADASTRAR MUSICA PLAYLIST SPOTIFY -------------|\n");
@@ -281,15 +279,39 @@ void tela_playlist_cadastrar_musica(char type_user, int id_usuario){
 
 			listar_musicas();
 			
-			printf("Digite o id da musica: ");
+			printf("\n\t Digite o id da musica: ");
 			scanf("%i", &id_mus_esc);
 
 			//listar playlists
+		    long int n_Linhas = 0;
+		    Playlist reg;
+		    rewind(arq_playlist);
+		    
+		    printf("\n\n \t ID \t TITULO DA PLAYLIST \t\t NOME DO USUARIO \n");
+		    printf("\t ---------------------------------------------------------\n");
+		    
+		    while(1){
+		    	
+			    if(fread(&reg, sizeof(reg), 1, arq_playlist)!= 1)break; /*Sair do laço*/
+		        if(reg.Status=='*') continue; /*Passa ao próximo*/
+		        n_Linhas++;
+		        printf("\t %i \t %-30s %10s \t\t \n",n_Linhas,reg.titulo,get_nome_usuario(reg.id_user));
+				
+		        if(n_Linhas%20==0)
+		            printf("Pressione <Enter> para continuar .  .  .");
+		            
+		    }
+			
 			//escolher a playlist pelo codigo
+			printf("\n\t Digite o id da playlist: ");
+			scanf("%i", &id_play_esc);
+
 			
 			//vincular a musica a playlist	
-		
-			printf("\n\n\t Digite qualquer tecla para voltar: ");		
+			cadastrar_musica_playlist(id_mus_esc,id_play_esc);
+			
+			
+			printf("\n\n\t Parabens, musica cadastrada na playlist com sucesso.. :) \n\t Digite qualquer tecla para voltar: ");		
 			getche();
 
 			if(type_user == 'a'){
@@ -305,6 +327,8 @@ void tela_playlist_cadastrar_musica(char type_user, int id_usuario){
 
 void tela_playlist_listar_musica(char type_user, int id_usuario){
      
+     		int id_play_esc; 
+     
  			system("cls");
 			printf("|------------------------------------------------------------|\n");
 			printf("|-------------- LISTAR MUSICA PLAYLIST SPOTIFY --------------|\n");
@@ -312,7 +336,35 @@ void tela_playlist_listar_musica(char type_user, int id_usuario){
 			
 			arquivo_playlist();
 
+
+			//listar playlists
+		    long int n_Linhas = 0;
+		    Playlist reg;
+		    rewind(arq_playlist);
+		    
+		    printf("\n\n \t ID \t TITULO DA PLAYLIST \t\t NOME DO USUARIO \n");
+		    printf("\t ---------------------------------------------------------\n");
+		    
+		    while(1){
+		    	
+			    if(fread(&reg, sizeof(reg), 1, arq_playlist)!= 1)break; /*Sair do laço*/
+		        if(reg.Status=='*') continue; /*Passa ao próximo*/
+		        n_Linhas++;
+		        printf("\t %i \t %-30s %10s \t\t \n",n_Linhas,reg.titulo,get_nome_usuario(reg.id_user));
+				
+		        if(n_Linhas%20==0)
+		            printf("Pressione <Enter> para continuar .  .  .");
+		            
+		    }
 			
+			//escolher a playlist pelo codigo
+			printf("\n\t Digite o id da playlist: ");
+			scanf("%i", &id_play_esc);
+
+			//listar todas as musicas da playlist
+			printf("\n\n");
+			buscar_musica_playlist(id_play_esc);
+		
 		
 			printf("\n\n\t Digite qualquer tecla para voltar: ");		
 			getche();

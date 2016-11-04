@@ -113,7 +113,6 @@ void tela_musica_consultar(char type_user,int id_usuario){
 		        if(reg.Status!='*' && strstr(reg.titulo, s))
 		            printf("\n\n\t %-30s %3s \n",reg.titulo, reg.autor);
 			
-		
 			printf("\n\n\t Digite qualquer tecla para voltar: ");		
 			getche();
 			if(type_user == 'a'){
@@ -300,21 +299,51 @@ void listar_musicas(){
 		musica mus;
 		rewind(arq_musica);
 		    
-		printf("\n\t TITULO \t\t\tAUTOR \n");
+		printf("\n \t ID \t TITULO \t\t\tAUTOR \n");
 		printf("\t --------------------------------------------------\n");
 		    
 		while(1){
 		    	
 			if(fread(&mus, sizeof(mus), 1, arq_musica)!= 1)break; /*Sair do laço*/
 		    if(mus.Status=='*') continue; /*Passa ao próximo*/
-		        
-		    printf("\t %-30s %3s \n",mus.titulo, mus.autor);
-		        
+
 			n_Linhas++;
+		        
+		    printf("\t %i \t %-30s %3s \n",n_Linhas,mus.titulo, mus.autor);    
+
 		    if(n_Linhas%20==0)
 		        printf("Pressione <Enter> para continuar .  .  .");
 		            
 		}
+		
+}
+
+
+void get_nome_autor_musica(int id_musica){
+	
+		arquivo_repositorio();
+
+		long int n_Linhas = 0;
+		musica mus;
+		rewind(arq_musica);
+		    	    
+		while(1){
+		    	
+			if(fread(&mus, sizeof(mus), 1, arq_musica)!= 1)break; /*Sair do laço*/
+			if(mus.Status=='*') continue; /*Passa ao próximo*/
+		    
+			n_Linhas++; 
+			    
+		    if(id_musica == n_Linhas){
+		    	printf("\t %-20s  %23s \n",mus.titulo,mus.autor);
+			}
+
+		    if(n_Linhas%20==0)
+		        printf("Pressione <Enter> para continuar .  .  .");
+		            
+		}
+	   
+	    fflush(arq_musica);      
 		
 }
 
