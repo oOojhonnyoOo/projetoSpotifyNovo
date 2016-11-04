@@ -39,17 +39,20 @@ void tela_playlist_listar(char type_user, int id_usuario){
 		    Playlist reg;
 		    rewind(arq_playlist);
 		    
-		    printf("\n\n\t TITULO DA PLAYLIST \t\t NOME DO USUARIO \t\t FAVORITAS \n");
+		    printf("\n\n\t TITULO DA PLAYLIST \t\t NOME DO USUARIO \t FAVORITAS \n");
 		    printf("\t ---------------------------------------------------------------------------\n");
 		    
 		    while(1){
 		    	
 			    if(fread(&reg, sizeof(reg), 1, arq_playlist)!= 1)break; /*Sair do laço*/
 		        if(reg.Status=='*') continue; /*Passa ao próximo*/
-		        
-		        printf("\t %-30s %10s \t\t\t * \n",reg.titulo,get_nome_usuario(reg.id_user));
-		        
-				n_Linhas++;
+		        n_Linhas++;
+		        printf("\t %-30s %10s \t\t     ",reg.titulo,get_nome_usuario(reg.id_user));
+				
+				busca_play_fav(id_usuario,n_Linhas);
+				
+				printf("\n");
+				
 		        if(n_Linhas%20==0)
 		            printf("Pressione <Enter> para continuar .  .  .");
 		            
@@ -200,8 +203,6 @@ void tela_playlist_musica(char type_user, int id_usuario){
 			printf("|------------------------------------------------------------|\n");	
 			
 			arquivo_playlist();
-
-			
 		
 			printf("\n\n\t Digite qualquer tecla para voltar: ");		
 			getche();
@@ -218,6 +219,8 @@ void tela_playlist_musica(char type_user, int id_usuario){
 
 void tela_playlist_favoritar(char type_user, int id_usuario){
      
+     		int id_playlist;
+     
  			system("cls");
 			printf("|------------------------------------------------------------|\n");
 			printf("|--------------- FAVORITAR PLAYLIST SPOTIFY -----------------|\n");
@@ -225,9 +228,34 @@ void tela_playlist_favoritar(char type_user, int id_usuario){
 			
 			arquivo_playlist();
 
+		    long int n_Linhas = 0;
+		    Playlist reg;
+		    rewind(arq_playlist);
+		    
+		    printf("\n\n     ID  TITULO DA PLAYLIST \t\t NOME DO USUARIO \n");
+		    printf("     -------------------------------------------------------\n");
+		    
+		    while(1){
+		    	
+			    if(fread(&reg, sizeof(reg), 1, arq_playlist)!= 1)break; /*Sair do laço*/
+		        if(reg.Status=='*') continue; /*Passa ao próximo*/
+		        n_Linhas++;
+		        
+		        if(id_usuario != reg.id_user){
+		        	printf("     %i \t %-30s %10s \n",n_Linhas,reg.titulo,get_nome_usuario(reg.id_user));		        	
+				}
+		       	
+		        if(n_Linhas%20==0)
+		            printf("Pressione <Enter> para continuar .  .  .");
+		            
+		    }
 			
-		
-			printf("\n\n\t Digite qualquer tecla para voltar: ");		
+			printf("\n\n     Digite a id da playlist para favoritar: ");
+			scanf("%i", &id_playlist);
+
+			cadastro_playlist_favorita(id_usuario,id_playlist);
+			
+			printf("\n\n     Sua playlist foi favoritada com sucesso... :)  \n     Digite qualquer tecla para voltar:");		
 			getche();
 
 			if(type_user == 'a'){
@@ -242,15 +270,24 @@ void tela_playlist_favoritar(char type_user, int id_usuario){
 
 
 void tela_playlist_cadastrar_musica(char type_user, int id_usuario){
-     
- 			system("cls");
+	
+     		int id_mus_esc; 			
+			system("cls");
 			printf("|------------------------------------------------------------|\n");
 			printf("|------------ CADASTRAR MUSICA PLAYLIST SPOTIFY -------------|\n");
 			printf("|------------------------------------------------------------|\n");	
 			
 			arquivo_playlist();
 
+			listar_musicas();
 			
+			printf("Digite o id da musica: ");
+			scanf("%i", &id_mus_esc);
+
+			//listar playlists
+			//escolher a playlist pelo codigo
+			
+			//vincular a musica a playlist	
 		
 			printf("\n\n\t Digite qualquer tecla para voltar: ");		
 			getche();

@@ -7,6 +7,7 @@
 #include "tela_musica.c"
 #include "tela_perfil.c"
 #include "tela_playlist.c"
+#include "favoritar_playlist.c"
 
 #define TAM_NOME 50
 #define TAM_LOGIN 15
@@ -14,8 +15,6 @@
 
 char opcao;
 char type_user;
-
-
 
 void tela_index_user(int id_usuario){
 	
@@ -144,8 +143,8 @@ void tela_index_user(int id_usuario){
 		
 					printf("\n\t a- Cadastrar musica na playlist");
 					printf("\n\t b- Listar musica da playlist ");
-					printf("\n\t b- Excluir musica da playlist ");
-					printf("\n\t C- Voltar ");
+					printf("\n\t c- Excluir musica da playlist ");
+					printf("\n\t d- Voltar ");
 		
 					printf("\n\n\t escolha sua opcao: ");		
 					opcao = getche();

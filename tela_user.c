@@ -126,7 +126,7 @@ char*get_nome_usuario(int id_usuario)
 	usuario_repositorio();
 			
 	TipoPessoa x;		
-		    
+	
 	if(fseek(usuario, (id_usuario-1)*sizeof(TipoPessoa), SEEK_SET)!=0){
 		printf("Registro inexistente ou problemas no posicionamento!!!");
 		system("PAUSE");

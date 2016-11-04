@@ -291,3 +291,30 @@ void tela_musica_excluir(char type_user, int id_usuario){
 
 }
 
+
+void listar_musicas(){
+	
+		arquivo_repositorio();
+			
+		long int n_Linhas = 0;
+		musica mus;
+		rewind(arq_musica);
+		    
+		printf("\n\t TITULO \t\t\tAUTOR \n");
+		printf("\t --------------------------------------------------\n");
+		    
+		while(1){
+		    	
+			if(fread(&mus, sizeof(mus), 1, arq_musica)!= 1)break; /*Sair do laço*/
+		    if(mus.Status=='*') continue; /*Passa ao próximo*/
+		        
+		    printf("\t %-30s %3s \n",mus.titulo, mus.autor);
+		        
+			n_Linhas++;
+		    if(n_Linhas%20==0)
+		        printf("Pressione <Enter> para continuar .  .  .");
+		            
+		}
+		
+}
+

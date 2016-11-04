@@ -39,7 +39,7 @@ void alterar_senha(Pessoa2 *p){
 }
 
 void alterar_login(Pessoa2 *p){
-    gets(p->nome);
+    gets(p->login);
     p->Status = ' ';
     fflush(stdin);
 }
@@ -212,12 +212,28 @@ void tela_perfil_ver_dados(char type_user, int id_usuario){
 			printf("|------------------------------------------------------------|\n");
 
 			usuario_repositorio2();
+			
+			Pessoa2 x;		
+		    
+			if(fseek(usuario, (id_usuario-1)*sizeof(Pessoa2), SEEK_SET)!=0){
+		        printf("Registro inexistente ou problemas no posicionamento!!!");
+		        system("PAUSE");
+		    }
+		    
+		    if(fread(&x, sizeof(Pessoa2), 1, usuario)!= 1){
+		        printf("Problemas na leitura do registro!!!");
+		        system("PAUSE");
+		    }
+		   
+		    if(x.Status == '*'){
+		        printf("Um registro apagado não pode ser alterado!!! \n\n");
+		        system("PAUSE");
+		    }
 
 			printf("\n\n\t DADOS DO USUARIO \n\n");
 			printf("\tID:    %i\n",id_usuario);			
-			printf("\tNOME:  \n");
-			printf("\tLOGIN: \n");
-			printf("\tSENHA: \n");
+			printf("\tNOME:  %s\n",x.nome);
+			printf("\tLOGIN: %-30s\n",x.login);
 		
 			printf("\n\n\t Digite qualquer tecla para voltar: ");		
 			getche();
