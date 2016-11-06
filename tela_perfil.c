@@ -15,6 +15,8 @@ typedef struct{
     char Status; /* '*' indica que o registro está apagado*/
 }Pessoa2;
 
+int confere_senha(Pessoa2 *p);
+
 void alterar_senha(Pessoa2 *p){
 	
     int w;
@@ -38,15 +40,15 @@ void alterar_senha(Pessoa2 *p){
     fflush(stdin);
 }
 
-void alterar_login(Pessoa2 *p){
-    gets(p->login);
+void alterar_login(Pessoa2 *p, char novoLogin[TAM_LOGIN]){
+	strcpy(p->login, novoLogin);
     p->Status = ' ';
     fflush(stdin);
 }
 
 
-void alterar_nome(Pessoa2 *p){
-    gets(p->nome);
+void alterar_nome(Pessoa2 *p, char novoNome[TAM_NOME]){
+    strcpy(p->nome, novoNome);
     p->Status = ' ';
     fflush(stdin);
 }
@@ -61,8 +63,9 @@ void usuario_repositorio2(){
 
 
 void tela_perfil_nome(char type_user, int id_usuario){
-     
- 			system("cls");
+     		char novoNome[TAM_NOME] = {};
+ 			char conferirSenha[TAM_SENHA+1];
+			system("cls");
 			printf("|------------------------------------------------------------|\n");
 			printf("|------------- ALTERAR NOME PERFIL SPOTIFY ------------------|\n");
 			printf("|------------------------------------------------------------|\n");
@@ -88,11 +91,19 @@ void tela_perfil_nome(char type_user, int id_usuario){
 		        system("PAUSE");
 		    }
 		   
-		    printf("\n\n\t Seu login atual : %-30s \n",x.login);
+		    printf("\n\n\t Seu nome atual : %-30s \n",x.nome);
 		    		    
-		    printf("\t Digite seu novo nome:");
-		    
-			alterar_nome(&x);
+		    printf("\t Digite seu novo nome: ");
+		    gets(novoNome);
+		   
+		    /* solicita senha para confirmar alteração de nome*/
+		   	
+			if(confere_senha(&x) == 0){
+				alterar_nome(&x, novoNome);
+				printf("\n\t Nome alterado com sucesso");
+			}
+			
+	
 		   
 		    // recuar um registro no arquivo
 		    fseek(usuario, -(long) sizeof(Pessoa2), SEEK_CUR);
@@ -107,7 +118,8 @@ void tela_perfil_nome(char type_user, int id_usuario){
 }
 
 void tela_perfil_login(char type_user, int id_usuario){
-     
+			char novoLogin[TAM_LOGIN] = {};
+			
  			system("cls");
 			printf("|------------------------------------------------------------|\n");
 			printf("|--------------- ALTERAR LOGIN SPOTIFY ----------------------|\n");
@@ -134,9 +146,14 @@ void tela_perfil_login(char type_user, int id_usuario){
 		   
 		    printf("\n\n\t Seu login atual : %-30s \n",x.login);
 		    		    
-		    printf("\t Digite seu novo login:");
-		    
-			alterar_login(&x);
+		    printf("\t Digite seu novo login: ");
+		    gets(novoLogin);
+		    /* solicita a senha para confirmar a mudança de login*/
+		   	if(confere_senha(&x) == 0){
+				alterar_login(&x, novoLogin);
+				printf("\n\t Login alterado com sucesso");
+			}
+			
 		   
 		    // recuar um registro no arquivo
 		    fseek(usuario, -(long) sizeof(Pessoa2), SEEK_CUR);
@@ -212,31 +229,41 @@ void tela_perfil_ver_dados(char type_user, int id_usuario){
 			printf("|------------------------------------------------------------|\n");
 
 			usuario_repositorio2();
-			
-			Pessoa2 x;		
-		    
-			if(fseek(usuario, (id_usuario-1)*sizeof(Pessoa2), SEEK_SET)!=0){
-		        printf("Registro inexistente ou problemas no posicionamento!!!");
-		        system("PAUSE");
-		    }
-		    
-		    if(fread(&x, sizeof(Pessoa2), 1, usuario)!= 1){
-		        printf("Problemas na leitura do registro!!!");
-		        system("PAUSE");
-		    }
-		   
-		    if(x.Status == '*'){
-		        printf("Um registro apagado não pode ser alterado!!! \n\n");
-		        system("PAUSE");
-		    }
 
 			printf("\n\n\t DADOS DO USUARIO \n\n");
 			printf("\tID:    %i\n",id_usuario);			
-			printf("\tNOME:  %s\n",x.nome);
-			printf("\tLOGIN: %-30s\n",x.login);
+			printf("\tNOME:  \n");
+			printf("\tLOGIN: \n");
+			printf("\tSENHA: \n");
 		
 			printf("\n\n\t Digite qualquer tecla para voltar: ");		
 			getche();
         	tela_index_user(id_usuario);        	
 
+}
+
+int confere_senha(Pessoa2 *p){
+	int i;
+	char senha[TAM_SENHA], verifica;
+	
+	do{
+		memset(senha,0,strlen(senha));
+        printf("\n\t Digite sua senha para confirmar: ");
+		for ( i = 0 ; i < TAM_SENHA ; i++ ) {
+				   	
+			verifica = getch();
+			       
+			if (verifica == 13){
+				break;
+			}else{
+				senha[i] = verifica;
+				printf("*");
+			}
+			   
+		}
+		        
+        if(senha != p->senha) printf("\n\t Voce digitou uma senha errada!");
+    }while(strcmp(senha, p->senha) != 0);
+    printf("\n\t Senha correta!");
+    return 0;
 }
