@@ -18,23 +18,48 @@ typedef struct{
 int confere_senha(Pessoa2 *p);
 
 void alterar_senha(Pessoa2 *p){
-	
-    int w;
+	char novaSenha[TAM_SENHA];
     char verifica;	
+    int w;
     
-	for ( w = 0 ; w < TAM_SENHA ; w++ ) {
+    
+    do{
+    	memset(novaSenha,0,strlen(novaSenha));
+    	printf("\n\t Digite sua NOVA SENHA: ");
+    	for ( w = 0 ; w < TAM_SENHA ; w++ ) {
 			   	
-		verifica = getch();
-		       
-		if (verifica == 13){
-			break;
-		}else{
-			p->senha[w] = verifica;
-			printf("*");
+			verifica = getch();
+			       
+			if (verifica == 13){
+				break;
+			}else{
+				novaSenha[w] = verifica;
+				printf("*");
+			}
+		  	
 		}
-		   			    
-	}	
-    
+		printf("\n\nVocê digitou: %s\n\n", novaSenha);
+		printf("\n\t Confirme sua NOVA SENHA: ");
+		for ( w = 0 ; w < TAM_SENHA ; w++ ) {
+			   	
+			verifica = getch();
+			       
+			if (verifica == 13){
+				break;
+			}else{
+				p->senha[w] = verifica;
+				printf("*");
+			}
+			   			    
+		}
+		printf("\n\nVocê digitou: %s\n\n", p->senha);
+		
+		if(strcmp(novaSenha, p->senha) != 0){
+			printf("\n\nSem sucesso na confirmacao da senha, tente novamente\n\n");
+		}
+    	
+	}while(strcmp(novaSenha,p->senha) != 0);
+		
     
     p->Status = ' ';
     fflush(stdin);
@@ -169,7 +194,7 @@ void tela_perfil_login(char type_user, int id_usuario){
 
 void tela_perfil_senha(char type_user, int id_usuario){
      
-     		char senhaAntiga[50];
+     		char senhaAntiga[TAM_SENHA];
  			
 			system("cls");
 			printf("|------------------------------------------------------------|\n");
@@ -197,14 +222,12 @@ void tela_perfil_senha(char type_user, int id_usuario){
 		   
 		    printf("\n\n\t Seu login: %-30s \n",x.login);
 
-			do{
-			    printf("\t Digite sua senha antiga:");
+			printf("\n\t Digite sua SENHA ANTIGA: ");
+			gets(senhaAntiga);
+			while(strcmp (senhaAntiga,x.senha) != 0){
+				printf("\n\tSenha nao confere, digite novamente: ");
 				gets(senhaAntiga);
-			}while(strcmp (senhaAntiga,x.senha) != 0);
-		     
-		     
-		     
-		    printf("\t Digite sua nova senha:");
+			}
 		    
 			alterar_senha(&x);
 		   
